@@ -18,4 +18,4 @@
 
 ## Скриншот
 
-![DFinder](https://github.com/manzhakdotcom/DFinder/blob/master/screenshot.png)
+![DFinder](https://github.com/manzhakdotcom/DFinder/blob/develop/screenshot.png)
