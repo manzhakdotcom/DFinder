@@ -92,6 +92,7 @@ class App:
         self.root = root
         self.root.bind('<F1>', self.top_level_about)
         self.root.bind('<Control-q>', self.close)
+        self.root.bind('<Control-f>', self.update_frame)
         self.menu()
         self.elements()
 
@@ -106,6 +107,8 @@ class App:
         menubar.add_cascade(menu=file, label=u'Файл')
         menubar.add_cascade(menu=about, label=u'?')
 
+        file.add_command(label=u'Получить', command=self.update_frame, accelerator="Ctrl+F")
+        file.add_separator()
         file.add_command(label=u'Выйти', command=self.close, accelerator="Ctrl+Q")
 
         about.add_command(label=u'О программе', command=self.top_level_about, accelerator="F1")
@@ -126,7 +129,7 @@ class App:
         self.button = Button(self.bottom_frame, text=u'Получить', command=self.update_frame)
         self.button.pack(padx=10, pady=10, ipadx=10, ipady=3)
 
-    def update_frame(self):
+    def update_frame(self, event=None):
         self.button.configure(text=u'Загрузка...')
         self.button.update()
         self.frame.destroy()
