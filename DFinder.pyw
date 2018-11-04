@@ -119,7 +119,8 @@ class App:
     def elements(self):
         self.frame_scroll()
 
-        self.label_info = Label(self.frame.interior, text=u'Нажмите на кнопку <Получить>\nи дождитесь результата.',
+        self.label_info = Label(self.frame.interior,
+                                text=u'Нажмите <Получить> или <CTRL+F>\nи дождитесь результата.',
                                 fg="#333")
         self.label_info.pack(ipadx=20, ipady=150)
 
