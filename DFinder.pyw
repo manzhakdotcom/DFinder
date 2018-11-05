@@ -50,7 +50,7 @@ class Config:
                 messagebox.showinfo('Сообщение', 'Файл '
                                     + self.file
                                     + ' создан. Настройте его и запустите программу.')
-                return self.get_data(dconfig)
+                sys.exit(1)
             elif MsgBox == 'no':
                 messagebox.showinfo('Сообщение', 'Без файла '
                                     + self.file
