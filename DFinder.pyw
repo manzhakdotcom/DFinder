@@ -2,27 +2,60 @@
 import fdb
 from tkinter import *
 from tkinter import messagebox
+from tkinter.filedialog import *
 import configparser
 import os
+import sys
 
 
 class Config:
-    def is_file(self):
-        if not os.path.exists('settings.ini'):
+    def __init__(self):
+        self.file = 'settings.ini'
+
+    def is_file(self, file):
+        if not os.path.exists(file):
             return False
         else:
             return True
 
+    def create_config_file(self, config):
+        config['Название участка'] = {'ip': '127.0.0.1',
+                                      'path': 'c:\\Неман\\Участок\\Events\\',
+                                      'file': 'COR_Название_Участка.GDB'
+                                      }
+        with open(self.file, "w") as config_file:
+            config.write(config_file)
+        return config
+
+    def get_data(self, config):
+        config.read(self.file)
+        data = {}
+        for section in config.sections():
+            data[section] = {}
+            for (key, val) in config.items(section):
+                data[section][key] = val
+        return data
+
     def options(self):
-        if self.is_file():
-            config = configparser.ConfigParser()
-            config.read("settings.ini")
-            data = {}
-            for section in config.sections():
-                data[section] = {}
-                for (key, val) in config.items(section):
-                    data[section][key] = val
-            return data
+        config = configparser.ConfigParser()
+        if self.is_file(self.file):
+            return self.get_data(config)
+        else:
+            MsgBox = messagebox.askquestion('Создать файл', 'Файл '
+                                            + self.file
+                                            + ' отсуствует. Создать файл с примером настроек?',
+                                            icon='warning')
+            if MsgBox == 'yes':
+                dconfig = self.create_config_file(config)
+                messagebox.showinfo('Сообщение', 'Файл '
+                                    + self.file
+                                    + ' создан. Настройте его и запустите программу.')
+                return self.get_data(dconfig)
+            elif MsgBox == 'no':
+                messagebox.showinfo('Сообщение', 'Без файла '
+                                    + self.file
+                                    + ' с настройками программа работать не будет.')
+                sys.exit(1)
 
 
 class Stuff:
@@ -46,7 +79,10 @@ class Stuff:
             cur.close()
             return data
         except Exception as err:
-            message('Файл ' + key['file'] + ' не найден!\nВозможно неправильный путь к файлу или ошибка:\n' + str(err))
+            messagebox.showwarning('Предупреждение', 'Файл '
+                                   + key['file']
+                                   + ' не найден!\nВозможно неправильный путь к файлу или ошибка:\n'
+                                   + str(err))
             return []
 
     def stuff(self, data):
@@ -63,7 +99,9 @@ class VerticalScrolledFrame(Frame):
         canvas = Canvas(self, bd=0, highlightthickness=0)
         vscrollbar = Scrollbar(self, orient=VERTICAL, command=canvas.yview)
         vscrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
-        canvas.configure(yscrollcommand=vscrollbar.set)
+        hscrollbar = Scrollbar(self, orient=HORIZONTAL, command=canvas.xview)
+        hscrollbar.pack(fill=X, side=BOTTOM, expand=FALSE)
+        canvas.configure(yscrollcommand=vscrollbar.set, xscrollcommand=hscrollbar.set)
         canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
 
         canvas.xview_moveto(0)
@@ -172,7 +210,7 @@ class App:
         frame = Frame(win)
         frame.pack()
 
-        label1 = Label(frame, text=u'Программа выводит \nсписок диспетчеров ЦУП, \nкоторые приняли смену.')
+        label1 = Label(frame, text=u'Программа выводит\nсписок диспетчеров ЦУП,\nкоторые приняли смену.')
         label2 = Label(frame, text=u'Автор © Манжак С.С.')
         label3 = Label(frame, text=u'Версия v' + self.root.version + u' Win7 32')
 
@@ -185,14 +223,10 @@ class App:
         win.wait_window()
 
 
-def message(text):
-    messagebox.showwarning(title=u'Сообщение', message=text)
-
-
 def center(root, width, height, offset):
-    x = root.winfo_screenwidth() / 2 - width / 2 + offset
-    y = root.winfo_screenheight() / 2 - height / 2 + offset
-    root.geometry('{}x{}+{}+{}'.format(width, height, round(x), round(y)))
+    x = round(root.winfo_screenwidth() / 2 - width / 2 + offset)
+    y = round(root.winfo_screenheight() / 2 - height / 2 + offset)
+    root.geometry('{}x{}+{}+{}'.format(width, height, int(x), int(y)))
 
 
 def main():
