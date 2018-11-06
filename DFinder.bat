@@ -15,7 +15,7 @@
 ::cRYluBh/LU+EWAnk
 ::YxY4rhs+aU+IeA==
 ::cxY6rQJ7JhzQF1fEqQJgZksaHErQXA==
-::ZQ05rAF9IBncCkqN+0xwdVsEAlTMbCXrZg==
+::ZQ05rAF9IBncCkqN+0xwdVsEAlTMbCXoZg==
 ::ZQ05rAF9IAHYFVzEqQKA16uK/Nwz3dtgRgXIWDBKDlpYEpistlPYyFpqOgRQkDJz
 ::eg0/rx1wNQPfEVWB+kM9LVsJDCCkNWW+A6d8
 ::fBEirQZwNQPfEVWB+kM9LVsJDGQ=
@@ -31,4 +31,4 @@
 ::
 ::
 ::978f952a14a936cc963da21a135fa983
-start pythonw "%~dp0\DFinder.pyw"
+start pythonw %cd%\DFinder.pyw
