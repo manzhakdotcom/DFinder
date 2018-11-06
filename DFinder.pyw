@@ -46,7 +46,7 @@ class Config:
                                             + ' отсуствует. Создать файл с примером настроек?',
                                             icon='warning')
             if MsgBox == 'yes':
-                dconfig = self.create_config_file(config)
+                self.create_config_file(config)
                 messagebox.showinfo('Сообщение', 'Файл '
                                     + self.file
                                     + ' создан. Настройте его и запустите программу.')
