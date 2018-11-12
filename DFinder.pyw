@@ -189,6 +189,8 @@ class App:
         for value, key in stuff.items():
             if 0 != len(key):
                 str = '\n'
+                if 1 == len(key):
+                    str += 'Не принял смену\n'
                 for item in key:
                     str += item[1].strftime('%H:%M %Y.%m.%d') + ' - ' + item[0] + '\n'
                 value = '<' + value + '>' + str
